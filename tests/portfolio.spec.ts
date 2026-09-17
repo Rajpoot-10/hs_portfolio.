@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { projects } from '../src/data/content';
+const repositoryUrls: Record<string, string[]> = {
+  'sales-inventory-analytics': ['https://github.com/Rajpoot-10/Sales-Inventory-Analytics-API'],
+  'interactive-analytics-dashboards': ['https://github.com/Rajpoot-10/Netflix_EDA', 'https://github.com/Rajpoot-10/Amazon_EDA', 'https://github.com/Rajpoot-10/Super_store_EDA_Dashboard'],
+  'automated-eda-system': ['https://github.com/Rajpoot-10/n8n_automated_eda'],
+  'flight-management-system': ['https://github.com/Rajpoot-10/Flight-Management-System'],
+};
 
 test('home renders without console errors, broken assets, or horizontal overflow', async ({ page }, testInfo) => {
   const errors: string[] = [];
@@ -45,6 +51,14 @@ test('all case studies support direct URLs, refresh, metadata, and readable sect
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(project.title);
     await expect(page).toHaveTitle(`${project.title} — Hassam Ali`);
     await page.reload();
+    const urls = repositoryUrls[project.slug] ?? [];
+    await expect(page.locator('.case-external a[href^="https://github.com/"]')).toHaveCount(urls.length);
+    for (const url of urls) {
+      const link = page.locator('.case-external a[href="' + url + '"]');
+      await expect(link).toBeVisible();
+      await expect(link).toHaveAttribute('target', '_blank');
+      await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+    }
     await expect(page.getByRole('heading', { name: 'Approach & architecture' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Limitations & next steps' })).toBeVisible();
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -82,15 +96,32 @@ test('Data Lab filters change values and keyboard focus exposes a text tooltip',
   await expect(january).toHaveAttribute('aria-describedby', 'chart-tooltip');
 });
 
-test('unconfigured actions are absent and supplied GitHub links are safe', async ({ page }) => {
+test('configured GitHub and LinkedIn links are safe and unavailable actions stay hidden', async ({ page }, testInfo) => {
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'View Resume' })).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Open Email App' })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: /LinkedIn/ })).toHaveCount(0);
+  const linkedin = page.locator('#contact').getByRole('link', { name: 'Connect on LinkedIn' });
+  await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/hassam-ali-b88432317/');
+  await expect(linkedin).toHaveAttribute('target', '_blank');
+  await expect(linkedin).toHaveAttribute('rel', 'noopener noreferrer');
+  await expect(page.locator('#home').getByRole('link', { name: 'LinkedIn', exact: true })).toHaveAttribute('href', 'https://www.linkedin.com/in/hassam-ali-b88432317/');
+  for (const project of projects) {
+    const card = page.getByTestId('project-card').filter({ has: page.getByRole('heading', { name: project.title, exact: true }) });
+    const urls = repositoryUrls[project.slug] ?? [];
+    await expect(card.locator('a[href^="https://github.com/"]')).toHaveCount(urls.length);
+    for (const url of urls) {
+      const link = card.locator('a[href="' + url + '"]');
+      await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      await expect(link).toHaveAttribute('target', '_blank');
+    }
+  }
   await expect(page.locator('a[href="#"], a[href=""], a[href^="mailto:"]')).toHaveCount(0);
   const github = page.getByRole('link', { name: 'Find me on GitHub' });
   await expect(github).toHaveAttribute('href', 'https://github.com/Rajpoot-10');
   await expect(github).toHaveAttribute('rel', 'noopener noreferrer');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('.featured-1').screenshot({ path: 'test-results/' + testInfo.project.name + '-dashboard-links.png', scale: 'css' });
+  await page.locator('#contact').screenshot({ path: 'test-results/' + testInfo.project.name + '-contact-links.png', scale: 'css' });
 });
 
 test('hero interaction, not-found routes, and reduced motion work', async ({ page }) => {

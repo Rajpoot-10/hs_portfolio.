@@ -1,12 +1,13 @@
 export type ProjectCategory = 'Data Science & Analytics' | 'AI & Engineering';
 export type ProjectFilter = 'All' | ProjectCategory;
+export interface RepositoryLink { label: string; url: string; }
 export interface Project {
   slug: string; title: string; shortTitle: string; category: ProjectCategory;
   description: string; problem: string; approach: string;
   stack: string[]; features: string[]; architecture: string[];
   considerations: string[]; nextSteps: string[];
   preview: 'sales' | 'dashboards' | 'eda' | 'rag' | 'flight' | 'chat';
-  github?: string; demo?: string; screenshot?: string;
+  github?: string; repositories?: RepositoryLink[]; demo?: string; screenshot?: string;
 }
 export interface Profile {
   name: string; role: string; secondaryRole: string; location: string;
@@ -23,7 +24,7 @@ export const profile: Profile = {
   introduction: 'I work with Python, SQL, analytics, and AI tools to explore real-world problems and build practical solutions.',
   about: 'I’m Hassam, a BS Data Science student at the University of Agriculture Faisalabad. I build practical analytics applications and AI-powered systems, connecting what I learn with problems I can explore and solve.',
   github: 'https://github.com/Rajpoot-10',
-  linkedin: undefined, email: undefined, resume: undefined,
+  linkedin: 'https://www.linkedin.com/in/hassam-ali-b88432317/', email: undefined, resume: undefined,
   portrait: '/images/hassam-portrait-waist-up.png', socialImage: undefined, siteUrl: undefined,
 };
 export const education = [
@@ -40,6 +41,7 @@ export const featuredProjectOrder = ['sales-inventory-analytics', 'interactive-a
 export const projects: Project[] = [
   {
     slug: 'sales-inventory-analytics', title: 'Sales & Inventory Analytics API', shortTitle: 'Making inventory\nintelligence actionable.', category: 'Data Science & Analytics', preview: 'sales',
+    github: 'https://github.com/Rajpoot-10/Sales-Inventory-Analytics-API',
     description: 'An analytics API that connects day-to-day inventory operations with revenue insights and practical reorder recommendations.',
     problem: 'Sales records and stock levels are most useful when they can inform the same decision: what is selling, what is running low, and what should be reordered?',
     approach: 'FastAPI exposes product, order, and analytics operations. Supabase/PostgreSQL stores records, Pydantic validates inputs, and Pandas and NumPy support aggregation and moving-average calculations. This project does not use n8n.',
@@ -51,6 +53,11 @@ export const projects: Project[] = [
   },
   {
     slug: 'interactive-analytics-dashboards', title: 'Interactive Analytics Dashboards', shortTitle: 'A better question.\nA clearer perspective.', category: 'Data Science & Analytics', preview: 'dashboards',
+    repositories: [
+      { label: 'Netflix GitHub', url: 'https://github.com/Rajpoot-10/Netflix_EDA' },
+      { label: 'Amazon GitHub', url: 'https://github.com/Rajpoot-10/Amazon_EDA' },
+      { label: 'Superstore GitHub', url: 'https://github.com/Rajpoot-10/Super_store_EDA_Dashboard' },
+    ],
     description: 'Exploratory dashboards for Netflix titles, Amazon products, and Superstore sales. Prepare, filter, and see the story in the data.',
     problem: 'Raw datasets make comparisons difficult. Exploring titles, products, or sales requires consistent preparation and visualizations that make the underlying questions clear.',
     approach: 'Pandas supports data preparation and exploratory analysis. Streamlit provides interactive filters, while Plotly turns selected records into visual comparisons.',
@@ -61,6 +68,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'automated-eda-system', title: 'Automated EDA System', shortTitle: 'From dataset to first insights.', category: 'Data Science & Analytics', preview: 'eda',
+    github: 'https://github.com/Rajpoot-10/n8n_automated_eda',
     description: 'Reduce repetitive exploration with dataset profiling and automated visualization workflows.',
     problem: 'Early dataset exploration repeats many of the same tasks: inspecting columns, checking completeness, and examining distributions.',
     approach: 'FastAPI and Pandas support dataset profiling, with visualization libraries and n8n connecting the analysis into automated workflows.',
@@ -81,6 +89,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'flight-management-system', title: 'Flight Management System', shortTitle: 'Coordinating the booking journey.', category: 'AI & Engineering', preview: 'flight',
+    github: 'https://github.com/Rajpoot-10/Flight-Management-System',
     description: 'An engineering and automation project connecting flight search, seat inventory, bookings, and notifications.',
     problem: 'A booking workflow must coordinate changing seat availability with reservation states and passenger notifications.',
     approach: 'A React frontend connects to FastAPI and Supabase/PostgreSQL. n8n supports notification workflows around the booking lifecycle. This is an engineering and automation project.',
@@ -113,6 +122,13 @@ export function orderedProjects(filter: ProjectFilter): Project[] {
 export function webUrl(value: string | undefined): string | undefined {
   if (!value) return undefined;
   try { const url = new URL(value); return ['https:', 'http:'].includes(url.protocol) ? url.href : undefined; } catch { return undefined; }
+}
+export function getProjectRepositories(project: Project): RepositoryLink[] {
+  const links = [...(project.github ? [{ label: 'GitHub', url: project.github }] : []), ...(project.repositories ?? [])];
+  return links.flatMap(link => {
+    const url = webUrl(link.url);
+    return url ? [{ ...link, url }] : [];
+  });
 }
 export function assetUrl(value: string | undefined): string | undefined {
   return value?.startsWith('/') && !value.startsWith('//') ? value : webUrl(value);

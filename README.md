@@ -29,7 +29,7 @@ The preview server is at http://127.0.0.1:4173. Build output is `dist/`.
 Edit `src/data/content.ts`:
 
 - `profile`: name, roles, biography, location, GitHub, optional LinkedIn/email/resume/portrait/social image/public site URL.
-- `projects`: descriptions, categories, stacks, conceptual architecture, features, technical considerations, proposed next steps, and optional repository/demo/screenshot paths.
+- `projects`: descriptions, categories, stacks, conceptual architecture, features, technical considerations, proposed next steps, and optional repository/demo/screenshot paths. Use `github` for one repository or `repositories: [{ label, url }]` for multiple repositories (as used by the dashboards).
 - `featuredProjectOrder`: project slugs in the desired featured order. Two featured projects are configured; other projects use compact layouts.
 - `expertise` and `education`: skills and learning background.
 - `labData` and `labMonths`: explicitly synthetic demonstration values.
@@ -42,13 +42,13 @@ The supplied portrait of Hassam is configured at `public/images/hassam-portrait-
 
 ### Information still needed
 
-- Email address and LinkedIn URL.
+- Email address.
 - A real resume file and its path.
-- Real project screenshots and verified GitHub/live-demo URLs for each project.
+- Real project screenshots and live-demo URLs. GitHub URLs for the RAG Email Answering Assistant and WhatsApp AI Agent remain unconfigured.
 - Public deployment URL and a real social-preview image.
 - Verified outcomes or personal lessons to replace/extend the technical considerations, if available.
 
-The known GitHub profile is configured as https://github.com/Rajpoot-10. Project-specific URLs have not been guessed. Current case studies document only the supplied project scope; architecture diagrams are labeled conceptual, takeaways are design considerations, and next steps are proposals. No business-impact or production-readiness claims are included.
+The known GitHub profile is configured as https://github.com/Rajpoot-10. Verified GitHub URLs are configured for Sales, Automated EDA, Flight Management, and all three dashboards. The LinkedIn URL supplied by Hassam is also configured. The RAG email and WhatsApp repository URLs still need to be supplied; no URLs have been guessed. Current case studies document only the supplied project scope; architecture diagrams are labeled conceptual, takeaways are design considerations, and next steps are proposals. No business-impact or production-readiness claims are included.
 
 `profile.siteUrl` and `profile.socialImage` feed runtime canonical/image metadata. Page titles and descriptions update per route. Social crawlers that do not execute JavaScript use the static tags in `index.html`: when adding a real social image and public URL, also add absolute `og:image`/`og:url` and canonical tags there. For route-specific social cards, add static prerendering before launch. No social image is fabricated.
 
@@ -78,7 +78,7 @@ $env:PLAYWRIGHT_CHANNEL = 'msedge'
 npm.cmd run test:browser
 ```
 
-Tests launch a local production preview server. Coverage includes desktop/mobile layouts, 320/768/1024px overflow, keyboard filtering, menu and Escape behavior, all six direct case-study routes and refreshes, titles, synthetic-data interaction, missing actions, external-link safety, reduced motion, and not-found pages. Browser screenshots/traces are ignored by Git in `test-results/`. The missing-link browser checks describe the initial unconfigured profile; update their expectations after adding real contact details.
+Tests launch a local production preview server. Coverage includes desktop/mobile layouts, 320/768/1024px overflow, keyboard filtering, menu and Escape behavior, all six direct case-study routes and refreshes, titles, synthetic-data interaction, missing actions, external-link safety, reduced motion, and not-found pages. Browser screenshots/traces are ignored by Git in `test-results/`. Browser checks verify the configured project repositories and LinkedIn URL, and confirm missing email/resume actions remain hidden. Update the expected URL mapping when changing project repositories.
 
 With the development server running, `node scripts/browser-review.mjs` captures closer screenshots and measures overflow at five sizes. It defaults to installed Edge; override `PLAYWRIGHT_CHANNEL` for another installed Chromium channel.
 
