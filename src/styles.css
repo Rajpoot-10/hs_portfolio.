@@ -23,5 +23,5 @@
 
 /* Frame the real portrait with space above the hair at every breakpoint. */
 .about-art.has-portrait{aspect-ratio:4/5;background:#090d14}
-.about-art.has-portrait>img{object-position:center 28%}
-@media(max-width:760px){.about-art.has-portrait{aspect-ratio:4/4.5}}
+.about-art.has-portrait>img{object-position:center center}
+@media(max-width:760px){.about-art.has-portrait{aspect-ratio:4/5}}

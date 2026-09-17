@@ -24,7 +24,7 @@ export const profile: Profile = {
   about: 'I’m Hassam, a BS Data Science student at the University of Agriculture Faisalabad. I build practical analytics applications and AI-powered systems, connecting what I learn with problems I can explore and solve.',
   github: 'https://github.com/Rajpoot-10',
   linkedin: undefined, email: undefined, resume: undefined,
-  portrait: '/images/hassam-portrait-charcoal.png', socialImage: undefined, siteUrl: undefined,
+  portrait: '/images/hassam-portrait-waist-up.png', socialImage: undefined, siteUrl: undefined,
 };
 export const education = [
   { institution: 'University of Agriculture Faisalabad', course: 'BS Data Science', label: 'EDUCATION' },

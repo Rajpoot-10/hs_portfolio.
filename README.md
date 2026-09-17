@@ -38,7 +38,7 @@ Keep missing fields `undefined`. Never use `#`, dummy emails, example repository
 
 Place real files in `public/`, for example `public/images/sales-dashboard.webp`, and configure `/images/sales-dashboard.webp`. Add files before configuring their paths. Real project screenshots replace the concept illustrations automatically. A configured portrait replaces the HA artwork. Images have dimensions and lazy loading. Use optimized WebP/AVIF images with a suitable aspect ratio; check the layout after adding them.
 
-The supplied portrait of Hassam is configured at `public/images/hassam-portrait-charcoal.png`, with an AI-assisted charcoal background replacement.
+The supplied portrait of Hassam is configured at `public/images/hassam-portrait-waist-up.png`, with an AI-assisted charcoal background replacement and waist-up framing.
 
 ### Information still needed
 
