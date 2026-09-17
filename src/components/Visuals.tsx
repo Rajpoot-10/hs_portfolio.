@@ -1,4 +1,6 @@
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
+import { usePointerTilt } from '../hooks/motion';
 import { ArrowUpRight, Box, ChartNoAxesCombined, Database, FileText, GitBranch, Mail, MessageSquare, Plane, Sparkles } from 'lucide-react';
 import type { Project } from '../data/content';
 import { labData, labMonths } from '../data/content';
@@ -8,11 +10,13 @@ function landscapePoint(x: number, z: number) {
   return [280 + x * 62 + z * 38, 264 + z * 27 - x * 14 - height];
 }
 export function DataLandscape() {
+  const tilt = useRef<HTMLElement>(null);
+  usePointerTilt(tilt);
   const [mode, setMode] = useState<'surface' | 'points'>('surface');
   const lines = Array.from({ length: 25 }, (_, i) => -3 + i / 4);
   const samples = Array.from({ length: 49 }, (_, i) => -3 + i / 8);
   const path = (fixed: number, flip: boolean) => samples.map((step, i) => { const [x, y] = landscapePoint(flip ? fixed : step, flip ? step : fixed); return `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`; }).join(' ');
-  return <figure className="landscape">
+  return <figure ref={tilt} className="landscape">
     <div className="figure-top"><span><span className="tiny-square" /> THE INTELLIGENCE LAB</span><span>FIG. 001</span></div>
     <svg viewBox="0 0 560 410" role="img" aria-label={mode === 'surface' ? 'Illustrative cyan wireframe surface showing a synthetic distribution' : 'Illustrative scatter points sampled from a synthetic distribution'}>
       <defs><radialGradient id="landscape-glow"><stop stopColor="#34d9cf" stopOpacity=".10"/><stop offset="1" stopColor="#34d9cf" stopOpacity="0"/></radialGradient><linearGradient id="surface-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a8fff0"/><stop offset=".5" stopColor="#52d6cb"/><stop offset="1" stopColor="#285660"/></linearGradient></defs>
@@ -29,13 +33,15 @@ export function DataLandscape() {
 
 export function ProjectPreview({ project, large = false }: { project: Project; large?: boolean }) {
   const id = useId().replace(/:/g, '');
+  const tilt = useRef<HTMLElement>(null);
+  usePointerTilt(tilt, large);
   const workflows = {
     eda: [{ icon: FileText, label: 'Dataset' }, { icon: ChartNoAxesCombined, label: 'Profile' }, { icon: GitBranch, label: 'Visualize' }],
     rag: [{ icon: Mail, label: 'Question' }, { icon: Database, label: 'Retrieve' }, { icon: Sparkles, label: 'Response' }],
     flight: [{ icon: Plane, label: 'Search' }, { icon: Box, label: 'Hold' }, { icon: Mail, label: 'Confirm' }],
     chat: [{ icon: MessageSquare, label: 'Message' }, { icon: Database, label: 'Memory' }, { icon: Sparkles, label: 'Reply' }],
   };
-  return <figure className={`project-preview preview-${project.preview} ${large ? 'preview-large' : ''}`}>
+  return <figure ref={tilt} className={`project-preview preview-${project.preview} ${large ? 'preview-large' : ''}`}>
     {project.screenshot ? <img src={project.screenshot} alt={`${project.title} screenshot`} loading="lazy" width="1000" height="650" /> : <>
       {(project.preview === 'sales' || project.preview === 'dashboards') ? <div className="preview-window" aria-hidden="true">
         <div className="window-header"><div className="window-dots"><i/><i/><i/></div><span>{project.preview === 'sales' ? 'INVENTORY / OVERVIEW' : 'EXPLORATORY ANALYSIS'}</span><ArrowUpRight size={12}/></div>
@@ -59,11 +65,11 @@ export function DataLab() {
   const max = Math.max(...values);
   const selected = active === null ? null : `${labMonths[active]}: ${values[active]} synthetic orders`;
   return <section className="lab-section" aria-labelledby="lab-heading">
-    <div className="lab-intro"><p className="eyebrow"><span className="cyan-dot"/> A SMALL EXPERIMENT</p><h2 id="lab-heading">A little data.<br/>A different perspective.</h2><p>Change the category. Explore a point. See how a simple filter changes the story.</p><span className="lab-disclaimer">DATA LAB / SYNTHETIC DATA ONLY</span></div>
-    <div className="lab-chart"><div className="lab-chart-header"><div><h3>Orders over time</h3><p>Six months. Three perspectives.</p></div><label><span className="sr-only">Dataset category</span><select value={segment} onChange={event => {setSegment(event.target.value as keyof typeof labData); setActive(null);}}>{Object.keys(labData).map(key => <option key={key}>{key}</option>)}</select></label></div>
+    <div className="lab-intro" data-reveal><p className="eyebrow"><span className="cyan-dot"/> A SMALL EXPERIMENT</p><h2 id="lab-heading">A little data.<br/>A different perspective.</h2><p>Change the category. Explore a point. See how a simple filter changes the story.</p><span className="lab-disclaimer">DATA LAB / SYNTHETIC DATA ONLY</span></div>
+    <div className="lab-chart" data-reveal data-reveal-delay="70"><div className="lab-chart-header"><div><h3>Orders over time</h3><p>Six months. Three perspectives.</p></div><label><span className="sr-only">Dataset category</span><select value={segment} onChange={event => {setSegment(event.target.value as keyof typeof labData); setActive(null);}}>{Object.keys(labData).map(key => <option key={key}>{key}</option>)}</select></label></div>
       <div className="bar-chart" role="group" aria-label={`${segment} synthetic monthly orders. Tab through each bar for details.`}>
         <div className="chart-axis" aria-hidden="true"><span>50</span><span>25</span><span>0</span></div>
-        <div className="chart-bars">{values.map((value,index) => <div className="bar-column" key={labMonths[index]}><button className={`chart-bar ${active === index ? 'selected' : ''}`} style={{height: `${value * 2}%`}} onMouseEnter={() => setActive(index)} onMouseLeave={() => setActive(null)} onFocus={() => setActive(index)} onBlur={() => setActive(null)} onClick={() => setActive(index)} aria-label={`${labMonths[index]}: ${value} synthetic orders`} aria-describedby={active === index ? 'chart-tooltip' : undefined}><span>{value}</span></button><span className="bar-month">{labMonths[index].slice(0,3)}</span></div>)}</div>
+        <div className="chart-bars">{values.map((value,index) => <div className="bar-column" key={labMonths[index]}><button className={`chart-bar ${active === index ? 'selected' : ''}`} style={{ '--bar-value': value / 50 } as CSSProperties} onMouseEnter={() => setActive(index)} onMouseLeave={() => setActive(null)} onFocus={() => setActive(index)} onBlur={() => setActive(null)} onClick={() => setActive(index)} aria-label={`${labMonths[index]}: ${value} synthetic orders`} aria-describedby={active === index ? 'chart-tooltip' : undefined}><span className="bar-fill" aria-hidden="true"/><span className="bar-value" aria-hidden="true">{value}</span></button><span className="bar-month">{labMonths[index].slice(0,3)}</span></div>)}</div>
       </div>
       <div className="chart-readout"><span id="chart-tooltip" role="status">{selected ?? 'Hover or focus a bar to explore'}</span><span>Demo data</span></div>
       <p className="chart-summary" aria-live="polite">{segment}: {total} synthetic orders from January to June. {labMonths[values.indexOf(max)]} has the highest count ({max}). These values are illustrative, not project results.</p>

@@ -25,3 +25,57 @@
 .about-art.has-portrait{aspect-ratio:4/5;background:#090d14}
 .about-art.has-portrait>img{object-position:center center}
 @media(max-width:760px){.about-art.has-portrait{aspect-ratio:4/5}}
+/* Motion system: brief entrances, direct interaction, and no ambient loops. */
+:root{--motion-ease:cubic-bezier(.22,1,.36,1);--motion-fast:180ms;--motion-medium:420ms}
+.chart-bar,.chart-bar:hover,.chart-bar.selected,.chart-bar:focus-visible{height:100%;background:transparent;border:0;transition:none;overflow:hidden;border-radius:0}
+.chart-bar .bar-fill{position:absolute;inset:0;background:#559e94;border:1px solid #7cc9ba;border-bottom:0;border-radius:3px 3px 0 0;transform:scaleY(var(--bar-value));transform-origin:center bottom;transition:transform var(--motion-medium) var(--motion-ease),background var(--motion-fast);pointer-events:none}
+.chart-bar .bar-value{position:absolute;inset:0;height:100%;padding-top:6px;transform:translateY(calc((1 - var(--bar-value)) * 100%));transition:transform var(--motion-medium) var(--motion-ease);pointer-events:none}
+.chart-bar:hover .bar-fill,.chart-bar.selected .bar-fill,.chart-bar:focus-visible .bar-fill{background:#8be7ce}
+.contact-link{position:relative}
+.contact-link::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--cyan);transform:scaleX(0);transform-origin:left center}
+
+@keyframes intro-arrive{from{opacity:.2;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes menu-arrive{from{opacity:.4;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes marker-arrive{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+
+@media(prefers-reduced-motion:no-preference){
+  .hero-copy>*{animation:intro-arrive 600ms var(--motion-ease) backwards}
+  .hero-copy>.hero-name{animation-delay:40ms}
+  .hero-copy>h1{animation-delay:80ms}
+  .hero-copy>.secondary-role{animation-delay:110ms}
+  .hero-copy>.hero-statement,.hero-copy>.hero-description{animation-delay:145ms}
+  .hero-copy>.hero-actions,.hero-copy>.hero-location{animation-delay:185ms}
+  .hero-visual{animation:intro-arrive 750ms 120ms var(--motion-ease) backwards}
+  .hero-actions:focus-within{animation:none}
+  .landscape .surface-lines{transition:opacity 280ms ease}
+  .landscape>svg{transition:transform var(--motion-medium) var(--motion-ease)}
+  .landscape[data-tilt]>svg,.landscape[data-tilt]:hover>svg{transform:perspective(1000px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg))}
+  .featured-project .project-preview[data-tilt] .preview-window,.case-study>.project-preview[data-tilt] .preview-window{transform:perspective(1100px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform var(--motion-medium) var(--motion-ease)}
+  .featured-project,.compact-project{transition:transform 240ms var(--motion-ease),border-color 180ms ease}
+  .navigation a[aria-current]::after{animation:marker-arrive 220ms var(--motion-ease)}
+  .button svg,.hero-social svg:last-child,.contact-link svg,.subtle-link svg,.next-project>svg,.back-link svg{transition:transform 200ms var(--motion-ease)}
+  .button:active{transform:translateY(0) scale(.98)}
+  .button:focus-visible svg,.contact-link:focus-visible svg,.subtle-link:focus-visible svg{transform:translate(2px,-2px)}
+  .contact-link::after{transition:transform 250ms var(--motion-ease)}
+  .contact-link:focus-visible::after{transform:scaleX(1)}
+  .featured-project:focus-within,.compact-project:focus-within{border-color:#4c827a}
+  .next-project:focus-visible>svg{transform:translateX(5px)}
+  .back-link:focus-visible svg{transform:translateX(-3px)}
+  @media(max-width:760px){.navigation.is-open{animation:menu-arrive 180ms var(--motion-ease) backwards}}
+  @media(hover:hover) and (pointer:fine){
+    .featured-project:hover,.compact-project:hover{transform:translateY(-3px);border-color:#4c827a}
+    .button:hover svg,.hero-social:hover svg:last-child,.contact-link:hover svg,.subtle-link:hover svg{transform:translate(2px,-2px)}
+    .contact-link:hover::after{transform:scaleX(1)}
+    .next-project:hover>svg{transform:translateX(5px)}
+    .back-link:hover svg{transform:translateX(-3px)}
+  }
+}
+/* Pointer decoration is unnecessary on touch devices. Chart scaling remains semantic. */
+@media(hover:none),(pointer:coarse){
+  .landscape:hover>svg,.featured-project:hover .preview-window{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-copy>*,.hero-visual,.navigation.is-open{animation:none!important}
+  .landscape>svg,.landscape:hover>svg,.featured-project .preview-window,.case-study>.project-preview .preview-window{transform:none!important}
+  .featured-project:hover,.compact-project:hover,.button:active{transform:none}
+}

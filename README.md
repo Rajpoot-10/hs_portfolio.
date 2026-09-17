@@ -95,3 +95,7 @@ After deployment, open and refresh `/projects/sales-inventory-analytics` directl
 This is a client-rendered static site. It needs no database, authentication, server-side API, or secret keys. Browser tests use a local Chromium engine; Safari, Firefox, actual phone hardware, and manual screen-reader testing remain separate checks.
 
 Portrait edit provenance and the exact imagegen prompt are documented in [docs/portrait-edit.md](docs/portrait-edit.md).
+
+## Motion design
+
+The portfolio uses one-time section entrances, brief hero/menu arrivals, small pointer-driven 3D tilts on illustrative surfaces, link feedback, and transform-based Data Lab updates. No new runtime dependencies were added. See [docs/motion.md](docs/motion.md) for rationale, tuning, and accessibility behavior.
