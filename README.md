@@ -1,4 +1,4 @@
-﻿# Hassam Ali · The Intelligence Lab
+# Hassam Ali · The Intelligence Lab
 
 A complete personal portfolio built with React, TypeScript, Vite, and Tailwind CSS. Data Science is the primary identity; AI Engineering is the complementary discipline. Original SVG/CSS artwork, local fonts, and small interactive components keep the runtime free of visualization and animation engines.
 
@@ -38,11 +38,12 @@ Keep missing fields `undefined`. Never use `#`, dummy emails, example repository
 
 Place real files in `public/`, for example `public/images/sales-dashboard.webp`, and configure `/images/sales-dashboard.webp`. Add files before configuring their paths. Real project screenshots replace the concept illustrations automatically. A configured portrait replaces the HA artwork. Images have dimensions and lazy loading. Use optimized WebP/AVIF images with a suitable aspect ratio; check the layout after adding them.
 
+The supplied portrait of Hassam is configured at `public/images/hassam-portrait-charcoal.png`, with an AI-assisted charcoal background replacement.
+
 ### Information still needed
 
 - Email address and LinkedIn URL.
 - A real resume file and its path.
-- Optional real portrait.
 - Real project screenshots and verified GitHub/live-demo URLs for each project.
 - Public deployment URL and a real social-preview image.
 - Verified outcomes or personal lessons to replace/extend the technical considerations, if available.
@@ -89,6 +90,8 @@ Run `npm ci` and `npm run build`, then deploy `dist/` to a static host.
 - **Vercel:** `vercel.json` sets the build command, output directory, and SPA rewrite.
 - **Other hosts:** serve real assets normally and rewrite unknown application paths to `/index.html`. Do not redirect all paths to `/`; keep the requested project URL. On nginx, use `try_files $uri $uri/ /index.html;` inside the site location.
 
-After deployment, open and refresh `/projects/sales-inventory-analytics` directly. Check the configured resume, screenshots, social metadata, and external URLs. Hosting rules are supplied but no hosting account has been connected, no live deployment has been verified, and nothing has been pushed or published. GitHub Pages requires additional routing configuration and is not the default target.
+After deployment, open and refresh `/projects/sales-inventory-analytics` directly. Check the configured resume, screenshots, social metadata, and external URLs. Hosting rules are supplied but no hosting account has been connected, no live deployment has been verified, and the site has not been deployed by this workflow. GitHub Pages requires additional routing configuration and is not the default target.
 
 This is a client-rendered static site. It needs no database, authentication, server-side API, or secret keys. Browser tests use a local Chromium engine; Safari, Firefox, actual phone hardware, and manual screen-reader testing remain separate checks.
+
+Portrait edit provenance and the exact imagegen prompt are documented in [docs/portrait-edit.md](docs/portrait-edit.md).

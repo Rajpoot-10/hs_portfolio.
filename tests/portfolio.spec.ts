@@ -10,6 +10,13 @@ test('home renders without console errors, broken assets, or horizontal overflow
   await expect(page.getByRole('heading', { name: 'Data Scientist.' })).toBeVisible();
   await expect(page.getByTestId('project-card')).toHaveCount(6);
   await page.evaluate(() => document.fonts.ready);
+  const portrait = page.getByRole('img', { name: 'Hassam Ali', exact: true });
+  await portrait.scrollIntoViewIfNeeded();
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute('loading', 'lazy');
+  await expect.poll(() => portrait.evaluate(image => (image as HTMLImageElement).complete && (image as HTMLImageElement).naturalWidth > 0)).toBe(true);
+  await page.locator('#about').screenshot({ path: `test-results/${testInfo.project.name}-about.png`, scale: 'css' });
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: `test-results/${testInfo.project.name}-home.png`, fullPage: true, scale: 'css' });
   expect(errors).toEqual([]);
