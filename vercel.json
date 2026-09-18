@@ -9,7 +9,10 @@
   ],
   "functions": {
     "api/chat.ts": {
-      "maxDuration": 60
+      "maxDuration": 60,
+      "includeFiles": [
+        "server/**/*.ts"
+      ]
     }
   }
 }
