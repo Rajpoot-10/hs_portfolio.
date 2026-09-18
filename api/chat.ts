@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { RequestError, UNAVAILABLE, validateInput } from '../server/contracts.ts';
+import { providerFailureHint } from '../server/diagnostics.ts';
 import { answerQuestion } from '../server/rag.ts';
 import { RateLimiter } from '../server/rate-limit.ts';
 export const config = { maxDuration: 60 };
@@ -55,7 +56,7 @@ export function createChatHandler(answer = answerQuestion, timeoutMs = 40000) {
     } catch (error) {
       const status = error instanceof RequestError ? error.status : error instanceof SyntaxError ? 400 : 503;
       const message = error instanceof RequestError ? error.message : error instanceof SyntaxError ? 'Invalid JSON.' : UNAVAILABLE;
-      // Never log provider exceptions: they can contain credential-bearing request URLs.
+      if (status >= 500) console.error('[chat provider]', providerFailureHint(error));
       send(status, { success: false, error: message });
     } finally { active--; clearTimeout(timer); res.off('close', disconnected); }
   }
