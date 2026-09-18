@@ -22,7 +22,11 @@ npm.cmd run build
 npm.cmd run preview
 ```
 
-The preview server is at http://127.0.0.1:4173. Build output is `dist/`.
+The preview server is at http://127.0.0.1:4173. Build output is `dist/`. Preview is frontend-only. `npm run dev` also starts the local chat API.
+
+## Hassam AI portfolio assistant
+
+The floating assistant uses a server-side Gemini + Pinecone RAG pipeline and the supplied professional knowledge document. See [the setup and verification guide](docs/hassam-ai.md) for credentials, ingestion, models, architecture, live evaluation, and Vercel deployment. Add keys to `.env.local`, create a 768-dimension cosine Pinecone index, then run `npm.cmd run ingest` and `npm.cmd run dev`. Use `npm.cmd run check:ai` to verify the configured providers before ingestion; see the guide for the latest live-test status.
 
 ## Content and assets
 
@@ -84,7 +88,7 @@ With the development server running, `node scripts/browser-review.mjs` captures 
 
 ## Deployment (prepared, not published)
 
-Run `npm ci` and `npm run build`, then deploy `dist/` to a static host.
+Run `npm ci` and `npm run build`. For the complete portfolio with Hassam AI, deploy the repository to Vercel and configure the server environment; see [Hassam AI deployment](docs/hassam-ai.md#vercel-deployment). Static-only hosting serves the pages but requires a separate backend for chat.
 
 - **Netlify:** `netlify.toml` sets the build and output directory. `public/_redirects` is copied into `dist/` and provides the SPA fallback for direct project routes.
 - **Vercel:** `vercel.json` sets the build command, output directory, and SPA rewrite.
@@ -92,7 +96,7 @@ Run `npm ci` and `npm run build`, then deploy `dist/` to a static host.
 
 After deployment, open and refresh `/projects/sales-inventory-analytics` directly. Check the configured resume, screenshots, social metadata, and external URLs. Hosting rules are supplied but no hosting account has been connected, no live deployment has been verified, and the site has not been deployed by this workflow. GitHub Pages requires additional routing configuration and is not the default target.
 
-This is a client-rendered static site. It needs no database, authentication, server-side API, or secret keys. Browser tests use a local Chromium engine; Safari, Firefox, actual phone hardware, and manual screen-reader testing remain separate checks.
+The pages are client-rendered. Hassam AI adds a server-side API, Gemini credentials, and a Pinecone index; these never belong in the browser bundle. Browser tests use a local Chromium engine; Safari, Firefox, actual phone hardware, and manual screen-reader testing remain separate checks.
 
 Portrait edit provenance and the exact imagegen prompt are documented in [docs/portrait-edit.md](docs/portrait-edit.md).
 

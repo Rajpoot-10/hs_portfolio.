@@ -1,5 +1,15 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/((?!assets/|favicon.svg).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!api(?:/|$)|assets/|images/|favicon\\.svg).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/chat.ts": {
+      "maxDuration": 60
+    }
+  }
 }

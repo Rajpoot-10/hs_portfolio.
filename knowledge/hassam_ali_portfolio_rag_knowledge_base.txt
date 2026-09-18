@@ -1,0 +1,135 @@
+HASSAM ALI — PORTFOLIO AI ASSISTANT KNOWLEDGE BASE Last updated:
+September 2026
+
+ABOUT Hassam Ali is a Data Science undergraduate based in Faisalabad,
+Pakistan. His primary professional focus is Data Science, with AI
+Engineering as a complementary specialization. He is interested in
+building practical, end-to-end systems that combine data analysis,
+machine learning, APIs, databases, AI, and automation.
+
+EDUCATION Hassam is pursuing a BS in Data Science at the University of
+Agriculture Faisalabad (UAF), Main Campus. He began the degree in
+September 2025 and expects to graduate in 2029. His CGPA after the first
+two semesters is 3.68, with a 3.55 GPA in the first semester and 3.82
+GPA in the second semester.
+
+He is also studying AI and Data Science through Saylani Mass IT Training
+(SMIT), where his training includes practical work with data science,
+APIs, databases, RAG, AI integrations, and automation.
+
+CAREER DIRECTION Hassam’s primary career target is Data Scientist, while
+AI Engineer is his secondary specialization. He aims to work on
+real-world data and AI systems and plans to pursue internship and
+junior-level opportunities as he progresses through his degree.
+
+TECHNICAL SKILLS Programming: - Python - SQL - C++ fundamentals -
+JavaScript - PHP
+
+Data Science and Analytics: - NumPy - Pandas - Matplotlib - Seaborn -
+Plotly - Exploratory Data Analysis (EDA) - Data cleaning and
+transformation - Statistical analysis - Data visualization
+
+Machine Learning: - Scikit-learn - Decision Trees - Random Forest -
+AdaBoost - Bagging - SMOTE - GridSearchCV - Model evaluation - ROC/AUC
+concepts
+
+SQL and Databases: - MySQL - PostgreSQL - Supabase - JOINs - Subqueries
+and correlated subqueries - CTEs - Window functions - Views - Stored
+procedures - Triggers
+
+Backend and APIs: - FastAPI - REST APIs - Django - Database-backed
+backend systems
+
+AI Engineering and Automation: - Retrieval-Augmented Generation (RAG) -
+LLM integration - Embeddings and vector databases - Pinecone -
+Groq-hosted LLMs - n8n workflow automation - Gmail automation - WhatsApp
+AI integrations - Webhooks
+
+Other Tools: - Git and GitHub - Streamlit - VS Code - Cursor - Power BI
+learning in progress
+
+SELECTED PROJECTS
+
+1.  Flight Management System An end-to-end flight management platform
+    built with FastAPI, Supabase/PostgreSQL, and n8n. It includes flight
+    search and creation, passenger management, seat inventory, temporary
+    seat holds, booking confirmation, cancellations and refunds,
+    waitlists, automated waitlist promotion, expired-seat-hold cleanup,
+    and check-in reminder workflows.
+
+Technologies: Python, FastAPI, Supabase, PostgreSQL, n8n, REST APIs.
+
+2.  Sales & Inventory Analytics API A backend analytics system for
+    products, orders, inventory, revenue analysis, stock alerts, and
+    moving-average-based reorder recommendations.
+
+Technologies: FastAPI, Supabase, PostgreSQL, NumPy, Pandas.
+
+3.  Automated EDA System An automated exploratory data analysis workflow
+    that profiles datasets and produces analytical/chart
+    recommendations.
+
+Technologies: Python, FastAPI, Pandas, n8n.
+
+4.  RAG Email Answering System An AI workflow that processes
+    email-related information, stores/retrieves relevant context through
+    a vector database, and generates context-aware responses.
+
+Technologies: n8n, Pinecone, Groq LLM, Gmail, RAG, embeddings.
+
+5.  WhatsApp AI Agent An AI-powered WhatsApp assistant that uses an LLM
+    to generate responses and maintains recent conversational context.
+
+Technologies: Baileys, Groq LLM, n8n, JavaScript.
+
+6.  Gmail AI Assistant An automated workflow that receives emails and
+    uses AI to assist with generating replies.
+
+Technologies: n8n, Gmail, LLM integration.
+
+7.  AI Interview Copilot An AI-powered interview system supporting
+    interview questions, answer evaluation, learning recommendations,
+    and practice sessions.
+
+Technologies: AI/LLM integration, n8n, frontend development.
+
+8.  Resume Analyzer An AI-based resume analysis workflow that evaluates
+    resumes and produces structured feedback such as strengths,
+    weaknesses, and ATS-oriented analysis.
+
+Technologies: n8n, Groq LLM, document processing.
+
+9.  Data Analytics Dashboards Hassam has developed Streamlit-based
+    exploratory data analysis dashboards for datasets including Netflix
+    titles, Amazon products, and Superstore data.
+
+Technologies: Python, Pandas, Streamlit, Plotly.
+
+CERTIFICATIONS AND ADDITIONAL LEARNING - Harvard/edX — Machine Learning
+and AI with Python - Cisco Networking Academy — Introduction to Data
+Science - Cisco Networking Academy — Data Science Essentials - Cisco
+Networking Academy — Python Essentials 1 - Cisco Networking Academy —
+Python Essentials 2 - Ongoing AI & Data Science training at SMIT
+
+PROFESSIONAL INTERESTS Hassam is particularly interested in: - Data
+Science - Machine Learning - Applied AI - AI Engineering - RAG systems -
+Backend APIs for data/AI applications - SQL and database systems - Data
+analytics and visualization - Workflow automation - Building
+production-oriented, end-to-end projects
+
+PORTFOLIO ASSISTANT RESPONSE POLICY This knowledge base is intended for
+Hassam’s portfolio AI assistant.
+
+The assistant should: - Speak as Hassam’s AI portfolio assistant, not
+pretend to be Hassam personally. - Answer questions about Hassam’s
+education, skills, projects, certifications, and professional interests
+using retrieved information from this knowledge base. - Prefer specific
+evidence from projects when discussing Hassam’s skills. - Keep answers
+professional, concise, and recruiter-friendly unless the visitor
+requests more detail. - Never invent experience, employment,
+qualifications, project results, skills, or personal information that
+are not present in the knowledge base. - If the requested information is
+unavailable, clearly state that the portfolio knowledge base does not
+contain that information. - Do not expose private or sensitive personal
+information. - When appropriate, encourage visitors to inspect Hassam’s
+portfolio projects or GitHub repositories for technical details.

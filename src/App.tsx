@@ -1,3 +1,4 @@
+import ChatLauncher from './components/chatbot/ChatLauncher';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom';
@@ -130,5 +131,5 @@ function NotFound() {
 export default function App() {
   const { pathname } = useLocation();
   useEntranceMotion(pathname);
-  return <><a href="#main" className="skip-link">Skip to content</a><PageEffects/><Header/><Routes><Route path="/" element={<Home/>}/><Route path="/projects/:slug" element={<CaseStudy/>}/><Route path="*" element={<NotFound/>}/></Routes><footer className="site-footer container"><Link to="/#home" className="footer-brand"><Monogram/><span>{profile.name}</span></Link><span>Thoughtfully built. Always evolving.</span><span>© {new Date().getFullYear()} {profile.name}</span><a href="#main" aria-label="Back to top"><ArrowUpRight size={18}/></a></footer></>;
+  return <><a href="#main" className="skip-link">Skip to content</a><PageEffects/><Header/><Routes><Route path="/" element={<Home/>}/><Route path="/projects/:slug" element={<CaseStudy/>}/><Route path="*" element={<NotFound/>}/></Routes><footer className="site-footer container"><Link to="/#home" className="footer-brand"><Monogram/><span>{profile.name}</span></Link><span>Thoughtfully built. Always evolving.</span><span>© {new Date().getFullYear()} {profile.name}</span><a href="#main" aria-label="Back to top"><ArrowUpRight size={18}/></a></footer><ChatLauncher/></>;
 }
