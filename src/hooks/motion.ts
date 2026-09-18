@@ -24,18 +24,18 @@ export function useEntranceMotion(route: string) {
         element.dataset.motionState = 'entered';
         if (preference.matches || document.hidden || element.contains(document.activeElement)) continue;
         const animation = element.animate([
-          { opacity: 0.2, transform: 'translateY(14px)' },
+          { opacity: 0.35, transform: 'translateY(10px)' },
           { opacity: 1, transform: 'translateY(0)' },
         ], {
-          duration: 500,
+          duration: 620,
           delay: Math.min(120, Math.max(0, Number(element.dataset.revealDelay) || 0)),
-          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
           fill: 'none',
         });
         active.set(element, animation);
         animation.onfinish = () => active.delete(element);
       }
-    }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+    }, { threshold: 0.04, rootMargin: '0px 0px -12px 0px' });
     const observe = (node: Element) => collect(node).forEach(element => {
       if (!seen.has(element)) observer.observe(element);
     });
@@ -80,7 +80,7 @@ export function usePointerTilt<T extends HTMLElement>(ref: RefObject<T | null>, 
     const element = ref.current;
     if (!enabled || !element) return;
     const preference = window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
-    let detach = () => {};
+    let detach = () => { };
     const configure = () => {
       detach();
       if (!preference.matches) return;
