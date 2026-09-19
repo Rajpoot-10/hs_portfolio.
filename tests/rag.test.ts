@@ -33,9 +33,14 @@ test('request validation bounds text, roles and history', () => {
     { message: 'Hi', history: Array(9).fill({ role: 'user', content: 'Hi' }) }]) assert.throws(() => validateInput(invalid));
 });
 
-test('education questions preserve both the current degree and the prior ICS qualification when supported', () => {
+test('education questions preserve both the current degree and the prior ICS qualification when supported', async () => {
   assert.match(educationQuestionHint('What is Hassam studying?'), /ICS|prior qualification|current degree/i);
   assert.equal(educationQuestionHint('What is his salary?'), '');
+  const answer = await answerQuestion({ message: 'What is Hassam studying?', history: [] }, new AbortController().signal, {
+    retrieve: async () => [{ id: 'edu', title: 'EDUCATION', section: 'EDUCATION', text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad. He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).', score: .9 }],
+    generate: async () => JSON.stringify({ answerable: true, claims: [{ text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad.', id: 'edu', quote: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad.' }] }),
+  });
+  assert.match(answer, /ICS/i);
 });
 test('follow-up retrieval uses bounded context without changing independent questions', () => {
   const history = [{ role: 'user' as const, content: 'Which databases does he know?' }, { role: 'assistant' as const, content: 'MySQL, PostgreSQL and Supabase.' }];
