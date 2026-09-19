@@ -11,7 +11,8 @@ EDUCATION Hassam is pursuing a BS in Data Science at the University of
 Agriculture Faisalabad (UAF), Main Campus. He began the degree in
 September 2025 and expects to graduate in 2029. His CGPA after the first
 two semesters is 3.68, with a 3.55 GPA in the first semester and 3.82
-GPA in the second semester.
+GPA in the second semester.He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025)
+
 
 He is also studying AI and Data Science through Saylani Mass IT Training
 (SMIT), where his training includes practical work with data science,
