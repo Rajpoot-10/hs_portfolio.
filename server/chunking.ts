@@ -14,8 +14,17 @@ export function chunkKnowledge(document: string): Chunk[] {
     // A content-aware boundary is safer than silently truncating a large section.
     if (clean.length > 8000) throw new Error('Split this oversized knowledge section into meaningful subsections: ' + title);
     const technologies = clean.match(/Technologies:\s*(.+)$/i)?.[1].replace(/\.$/, '').split(/,\s*/) || [];
-    chunks.push({ id: ID_PREFIX + createHash('sha256').update(section + ':' + title).digest('hex').slice(0, 24),
-      metadata: { source: SOURCE, type, title, section, technologies, text: clean } });
+    chunks.push({
+      id: ID_PREFIX + createHash('sha256').update(section + ':' + title).digest('hex').slice(0, 24),
+      metadata: { source: SOURCE, type, title, section, technologies, text: clean }
+    });
+  };
+  const educationTitle = (text: string) => {
+    if (/\bICS\b|Intermediate of Computer Science/i.test(text)) return 'ICS';
+    if (/\bCGPA\b|\bGPA\b/i.test(text)) return 'CGPA';
+    if (/\bBS in Data Science\b|University of Agriculture|Agriculture Faisalabad/i.test(text)) return 'Degree';
+    if (/Saylani|AI and Data Science|SMIT/i.test(text)) return 'AI Training';
+    return 'Education';
   };
   matches.forEach((match, index) => {
     const section = match[1];
@@ -34,7 +43,14 @@ export function chunkKnowledge(document: string): Chunk[] {
         const title = part.split(':')[0].replace(/\s+/g, ' ').trim();
         add(section, title, part, 'skills');
       }
-    } else add(section, section, body, section === 'EDUCATION' ? 'education' : 'profile');
+    } else if (section === 'EDUCATION') {
+      const entries = body.split(/(?<=\.)\s+(?=[A-Z])/).map(part => part.trim()).filter(Boolean);
+      const segments = entries.length ? entries : [body];
+      for (const segment of segments) {
+        const title = educationTitle(segment);
+        add(section, title, segment, 'education');
+      }
+    } else add(section, section, body, 'profile');
   });
   if (new Set(chunks.map(chunk => chunk.id)).size !== chunks.length) throw new Error('Duplicate section titles would overwrite knowledge; give each a unique title.');
   if (!chunks.some(chunk => chunk.metadata.type === 'project')) throw new Error('No project chunks found.');

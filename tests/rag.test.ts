@@ -15,7 +15,8 @@ test('section-aware ingestion preserves all nine project descriptions and their 
   assert.deepEqual(project.metadata.technologies, ['Python', 'FastAPI', 'Supabase', 'PostgreSQL', 'n8n', 'REST APIs']);
   assert.match(project.metadata.text, /expired-seat-hold cleanup/);
   assert.ok(chunks.some(chunk => chunk.metadata.title === 'SQL and Databases' && chunk.metadata.text.includes('MySQL')));
-  assert.ok(chunks.some(chunk => chunk.metadata.title === 'EDUCATION' && chunk.metadata.text.includes('3.68')));
+  assert.ok(chunks.some(chunk => chunk.metadata.section === 'EDUCATION' && chunk.metadata.text.includes('3.68')));
+  assert.ok(chunks.some(chunk => chunk.metadata.section === 'EDUCATION' && chunk.metadata.text.includes('ICS')));
   assert.ok(!chunks.some(chunk => /RESPONSE POLICY|The assistant should/.test(chunk.metadata.text)));
 });
 test('IDs remain stable on edits and cleanup never removes another source', () => {
@@ -37,8 +38,11 @@ test('education questions preserve both the current degree and the prior ICS qua
   assert.match(educationQuestionHint('What is Hassam studying?'), /ICS|prior qualification|current degree/i);
   assert.equal(educationQuestionHint('What is his salary?'), '');
   const answer = await answerQuestion({ message: 'What is Hassam studying?', history: [] }, new AbortController().signal, {
-    retrieve: async () => [{ id: 'edu', title: 'EDUCATION', section: 'EDUCATION', text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad. He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).', score: .9 }],
-    generate: async () => JSON.stringify({ answerable: true, claims: [{ text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad.', id: 'edu', quote: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad.' }] }),
+    retrieve: async () => [
+      { id: 'edu-degree', title: 'Degree', section: 'EDUCATION', text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad (UAF), Main Campus.', score: .9 },
+      { id: 'edu-ics', title: 'ICS', section: 'EDUCATION', text: 'He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).', score: .9 },
+    ],
+    generate: async () => JSON.stringify({ answerable: true, claims: [{ text: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad (UAF), Main Campus, and he also did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).', id: 'edu-degree', quote: 'Hassam is pursuing a BS in Data Science at the University of Agriculture Faisalabad (UAF), Main Campus.' }, { text: 'He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).', id: 'edu-ics', quote: 'He did ICS (Intermediate of Computer Science) from Punjab Group of Colleges (2023-2025).' }] }),
   });
   assert.match(answer, /ICS/i);
 });
