@@ -2,10 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowUp, RotateCcw, Sparkles, X } from 'lucide-react';
 type Message = { role: 'user' | 'assistant'; content: string };
 function formatMessageContent(content: string) {
-  return content
-    .split(/\n+/)
-    .flatMap(paragraph => paragraph.split(/(?<=[.!?])\s+/).filter(Boolean))
-    .map((sentence, index) => <p key={index} className="chat-message-line">{sentence}</p>);
+  const sentences = content
+    .replace(/\r\n/g, '\n')
+    .replace(/([.!?])\s+/g, '$1\n')
+    .split('\n')
+    .map(sentence => sentence.trim())
+    .filter(Boolean);
+
+  return sentences.length ? sentences.map((sentence, index) => <p key={index} className="chat-message-line">{sentence}</p>) : [<p key="0" className="chat-message-line">{content.trim()}</p>];
 }
 const starters = [
   ['Data Science skills', "What are Hassam's Data Science skills?"],
