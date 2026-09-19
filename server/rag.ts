@@ -28,7 +28,13 @@ export function retrievalQuery(input: ChatInput) {
 export function retrievalTypes(message: string): string[] | undefined {
   if (/\bprojects?\b/i.test(message)) return ['project'];
   if (/\b(skills?|algorithms?|databases?)\b/i.test(message)) return ['skills', 'project'];
+  if (/\b(education|study|studying|degree|university|college|gpa|cgpa|ics)\b/i.test(message)) return ['education'];
   return undefined;
+}
+
+export function educationQuestionHint(message: string): string {
+  if (!/\b(education|study|studying|degree|university|college|gpa|cgpa|ics)\b/i.test(message)) return '';
+  return 'Education question: include both the current degree and any earlier completed academic qualification supported by the education evidence, such as ICS, without omitting relevant academic history.';
 }
 export function restrictedRequest(message: string) {
   return /(?:reveal|print|show|give|expose|repeat|dump)[\s\S]{0,70}(?:system\s*prompt|hidden\s*(?:context|instructions)|api[ _-]?key|password|all\s*(?:raw\s*)?(?:documents|knowledge|context))|ignore[\s\S]{0,40}(?:instructions|knowledge\s*base)|make\s*up[\s\S]{0,70}(?:experience|achievement|employment)/i.test(message);
@@ -60,22 +66,37 @@ export type RagDependencies = {
   retrieve: (query: string, signal: AbortSignal, types?: string[]) => Promise<Passage[]>;
   generate: (input: ChatInput, passages: Passage[], signal: AbortSignal, repair?: boolean) => Promise<string>;
 };
-const schema = { type: 'object', properties: {
-  answerable: { type: 'boolean' }, missing: { type: 'boolean' },
-  claims: { type: 'array', items: { type: 'object', properties: {
-    text: { type: 'string' }, id: { type: 'string' }, quote: { type: 'string' },
-  }, required: ['text', 'id', 'quote'], additionalProperties: false } },
-}, required: ['answerable', 'missing', 'claims'], additionalProperties: false };
+const schema = {
+  type: 'object', properties: {
+    answerable: { type: 'boolean' }, missing: { type: 'boolean' },
+    claims: {
+      type: 'array', items: {
+        type: 'object', properties: {
+          text: { type: 'string' }, id: { type: 'string' }, quote: { type: 'string' },
+        }, required: ['text', 'id', 'quote'], additionalProperties: false
+      }
+    },
+  }, required: ['answerable', 'missing', 'claims'], additionalProperties: false
+};
 function productionDependencies(): RagDependencies {
   const providers = getProviders();
-  return { retrieve: providers.retrieve, generate: async (input, passages, signal, repair = false) => {
-    const result = await providers.google.models.generateContent({ model: providers.config.generationModel,
-      contents: JSON.stringify({ currentQuestion: input.message, conversation: input.history,
-        evidence: passages.map(({ id, title, text }) => ({ id, title, text })) }),
-      config: { systemInstruction: SYSTEM + (repair ? '\nThe previous draft failed evidence validation. Use at most three short claims with exact contiguous quotes. Do not infer missing facts; return answerable=false if unsupported.' : ''), temperature: 0, maxOutputTokens: 3500, abortSignal: signal,
-        responseMimeType: 'application/json', responseJsonSchema: schema } });
-    return result.text || '';
-  } };
+  return {
+    retrieve: providers.retrieve, generate: async (input, passages, signal, repair = false) => {
+      const educationHint = educationQuestionHint(input.message);
+      const result = await providers.google.models.generateContent({
+        model: providers.config.generationModel,
+        contents: JSON.stringify({
+          currentQuestion: input.message, conversation: input.history,
+          evidence: passages.map(({ id, title, text }) => ({ id, title, text }))
+        }),
+        config: {
+          systemInstruction: SYSTEM + (educationHint ? '\n' + educationHint : '') + (repair ? '\nThe previous draft failed evidence validation. Use at most three short claims with exact contiguous quotes. Do not infer missing facts; return answerable=false if unsupported.' : ''), temperature: 0, maxOutputTokens: 3500, abortSignal: signal,
+          responseMimeType: 'application/json', responseJsonSchema: schema
+        }
+      });
+      return result.text || '';
+    }
+  };
 }
 export async function answerQuestion(input: ChatInput, signal: AbortSignal, dependencies?: RagDependencies, observeRetrieval?: (passages: Passage[]) => void) {
   if (restrictedRequest(input.message)) return FALLBACK;
