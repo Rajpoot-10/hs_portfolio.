@@ -18,6 +18,16 @@ He is also studying AI and Data Science through Saylani Mass IT Training
 (SMIT), where his training includes practical work with data science,
 APIs, databases, RAG, AI integrations, and automation.
 
+PROFESSIONAL EXPERIENCE Hassam worked as an AI Full Stack Developer at
+Xlogic Solutions on Chenone Road, Faisalabad, for 10 months in 2025.
+
+Hassam worked as a Frontend Developer at Technolangs in Faisalabad for
+six months in 2024.
+
+HACKATHON PARTICIPATION Hassam participated in the SMIT hackathon on
+5 September 2026, where he built an end-to-end AI-based Flight
+Management System.
+
 CAREER DIRECTION Hassam’s primary career target is Data Scientist, while
 AI Engineer is his secondary specialization. He aims to work on
 real-world data and AI systems and plans to pursue internship and
@@ -56,7 +66,7 @@ SELECTED PROJECTS
     search and creation, passenger management, seat inventory, temporary
     seat holds, booking confirmation, cancellations and refunds,
     waitlists, automated waitlist promotion, expired-seat-hold cleanup,
-    and check-in reminder workflows.
+    and check-in reminder workflows. Hassam built this end-to-end AI-based Flight Management System at the SMIT hackathon on 5 September 2026.
 
 Technologies: Python, FastAPI, Supabase, PostgreSQL, n8n, REST APIs.
 

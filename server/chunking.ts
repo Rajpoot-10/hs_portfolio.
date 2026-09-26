@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { ID_PREFIX, SOURCE } from './config.ts';
 export type Chunk = { id: string; metadata: { source: string; type: string; title: string; section: string; technologies: string[]; text: string } };
-const headings = ['ABOUT', 'EDUCATION', 'CAREER DIRECTION', 'TECHNICAL SKILLS', 'SELECTED PROJECTS', 'CERTIFICATIONS AND ADDITIONAL LEARNING', 'PROFESSIONAL INTERESTS', 'PORTFOLIO ASSISTANT RESPONSE POLICY'];
+const headings = ['ABOUT', 'EDUCATION', 'PROFESSIONAL EXPERIENCE', 'HACKATHON PARTICIPATION', 'CAREER DIRECTION', 'TECHNICAL SKILLS', 'SELECTED PROJECTS', 'CERTIFICATIONS AND ADDITIONAL LEARNING', 'PROFESSIONAL INTERESTS', 'PORTFOLIO ASSISTANT RESPONSE POLICY'];
 export function chunkKnowledge(document: string): Chunk[] {
   const normalized = document.replace(/\r\n/g, '\n').trim();
   const pattern = new RegExp('^(' + headings.join('|') + ')(?=\\s|$)', 'gm');
