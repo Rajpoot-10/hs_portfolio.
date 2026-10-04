@@ -55,6 +55,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'interactive-analytics-dashboards', title: 'Interactive Analytics Dashboards', shortTitle: 'A better question.\nA clearer perspective.', category: 'Data Science & Analytics', preview: 'dashboards',
+    screenshot: '/images/nexus.png',
     repositories: [
       { label: 'Netflix GitHub', url: 'https://github.com/Rajpoot-10/Netflix_EDA' },
       { label: 'Amazon GitHub', url: 'https://github.com/Rajpoot-10/Amazon_EDA' },
