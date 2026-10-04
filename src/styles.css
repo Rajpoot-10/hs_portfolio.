@@ -132,3 +132,6 @@
   .navigation a{min-height:44px;height:44px;padding:0 16px;border-radius:14px}
   .navigation a:last-child{height:44px;min-height:44px;margin-top:4px;padding:0 16px;border-radius:14px}
 }
+.site-header{transition:transform 240ms ease}
+.site-header.is-hidden{transform:translateY(calc(-100% - 32px));pointer-events:none}
+.site-header:focus-within{transform:translateY(0);pointer-events:auto}

@@ -19,6 +19,7 @@ function Monogram({ large = false }: { large?: boolean }) {
 function Header() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState('home');
+  const [hidden, setHidden] = useState(false);
   const toggle = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   useEffect(() => {
@@ -36,7 +37,23 @@ function Header() {
     document.addEventListener('keydown', escape); window.addEventListener('resize', resize);
     return () => { document.removeEventListener('keydown', escape); window.removeEventListener('resize', resize); };
   }, [open]);
-  return <header className="site-header"><div className="header-inner"><Link className="brand" to="/#home" onClick={() => setOpen(false)} aria-label="Hassam Ali, home"><Monogram /><span>Hassam Ali<span className="brand-dot">.</span></span></Link>
+  useEffect(() => {
+    let previousY = Math.max(0, window.scrollY);
+    function onScroll() {
+      const y = Math.max(0, Math.min(window.scrollY, document.documentElement.scrollHeight - window.innerHeight));
+      if (y <= 100) {
+        setHidden(false);
+        previousY = y;
+        return;
+      }
+      if (Math.abs(y - previousY) < 8) return;
+      setHidden(y > previousY);
+      previousY = y;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [location.pathname]);
+  return <header className={'site-header' + (hidden && !open ? ' is-hidden' : '')}><div className="header-inner"><Link className="brand" to="/#home" onClick={() => setOpen(false)} aria-label="Hassam Ali, home"><Monogram /><span>Hassam Ali<span className="brand-dot">.</span></span></Link>
     <button ref={toggle} className="menu-toggle" aria-expanded={open} aria-controls="main-navigation" aria-label={open ? 'Close navigation' : 'Open navigation'} onClick={() => setOpen(!open)}>{open ? <X size={23} /> : <Menu size={23} />}</button>
     <nav id="main-navigation" className={open ? 'navigation is-open' : 'navigation'} aria-label="Main navigation" onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget) && event.relatedTarget !== toggle.current) setOpen(false); }}>{navigation.map(item => { const id = item.toLowerCase(); const selected = location.pathname === '/' ? active === id : id === 'projects' && location.pathname.startsWith('/projects/'); return <Link key={id} to={`/#${id}`} aria-current={selected ? 'location' : undefined} onClick={() => setOpen(false)}>{item}{item === 'Contact' && <ArrowUpRight size={14} />}</Link>; })}</nav>
   </div></header>;

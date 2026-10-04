@@ -69,3 +69,32 @@ test('chart updates keep a stable layout and reduced-motion filtering stays imme
   await expect.poll(() => card.evaluate(el => getComputedStyle(el).opacity)).toBe('1');
   await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation => animation.playState === 'running').length)).toBe(0);
 });
+
+test('floating navigation hides down, returns up, and stays accessible', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const header = page.locator('.site-header');
+  await page.evaluate(() => window.scrollTo(0, 450));
+  await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().bottom)).toBeLessThan(0);
+  await page.evaluate(() => window.scrollTo(0, 350));
+  await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
+  await page.evaluate(() => window.scrollTo(0, 550));
+  await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().bottom)).toBeLessThan(0);
+  await page.getByRole('link', { name: 'Hassam Ali, home', exact: true }).focus();
+  await expect.poll(() => header.evaluate(el => el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(0);
+  if (testInfo.project.name === 'mobile') {
+    await page.getByRole('button', { name: 'Open navigation' }).click();
+    await page.evaluate(() => {
+      (document.activeElement as HTMLElement)?.blur();
+      window.scrollTo(0, 750);
+    });
+    await expect(header).not.toHaveClass(/is-hidden/);
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+    await page.keyboard.press('Escape');
+  }
+  await page.evaluate(() => {
+    (document.activeElement as HTMLElement)?.blur();
+    window.scrollTo(0, 0);
+  });
+  await expect(header).not.toHaveClass(/is-hidden/);
+});
