@@ -1,31 +1,31 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test('decorative tilt follows mouse input only and stops when reduced motion changes', async ({ page }, testInfo) => {
+test('landscape sways, pauses on hover, and respects reduced motion', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   const landscape = page.locator('.landscape');
+  const graphic = landscape.locator('svg').first();
   await landscape.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(graphic).toHaveCSS('animation-name', 'landscape-sway');
+  await expect(graphic).toHaveCSS('animation-play-state', 'running');
   if (testInfo.project.name === 'desktop') {
-    await expect(landscape).toHaveAttribute('data-tilt', 'enabled');
-    const box = (await landscape.boundingBox())!;
-    await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.4);
-    await expect.poll(() => landscape.evaluate(el => el.style.getPropertyValue('--tilt-y'))).not.toBe('');
-    const degrees = await landscape.evaluate(el => parseFloat(el.style.getPropertyValue('--tilt-y')));
-    expect(Math.abs(degrees)).toBeLessThanOrEqual(3);
-    await landscape.screenshot({ path: 'test-results/desktop-landscape-tilt.png' });
-    await page.mouse.move(5, 5);
-    await expect.poll(() => landscape.evaluate(el => el.style.getPropertyValue('--tilt-y'))).toBe('');
-  } else {
-    await expect(landscape).not.toHaveAttribute('data-tilt', 'enabled');
+    await landscape.hover();
+    await expect(graphic).toHaveCSS('animation-play-state', 'paused');
+    const frozen = await graphic.evaluate(el => getComputedStyle(el).transform);
+    await page.waitForTimeout(200);
+    await expect(graphic).toHaveCSS('transform', frozen);
+    await page.mouse.move(0, 0);
+    await expect(graphic).toHaveCSS('animation-play-state', 'running');
+    await page.getByRole('button', { name: 'Show scatter points' }).focus();
+    await expect(graphic).toHaveCSS('animation-play-state', 'paused');
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(landscape).not.toHaveAttribute('data-tilt', 'enabled');
-  await expect.poll(() => page.evaluate(() => document.getAnimations().filter(animation => animation.playState === 'running').length)).toBe(0);
+  await expect(graphic).toHaveCSS('animation-name', 'none');
+  await expect(graphic).toHaveCSS('transform', 'none');
   await page.getByRole('button', { name: 'Show scatter points' }).click();
   await expect(page.getByRole('button', { name: 'Show wireframe surface' })).toBeVisible();
-  await expect.poll(() => page.locator('.landscape > svg').evaluate(el => getComputedStyle(el).transform)).toBe('none');
 });
-
 test('content and navigation remain usable when entrance animation APIs are unavailable', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(Element.prototype, 'animate', { value: undefined, configurable: true });

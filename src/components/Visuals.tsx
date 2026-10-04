@@ -10,13 +10,11 @@ function landscapePoint(x: number, z: number) {
   return [280 + x * 62 + z * 38, 264 + z * 27 - x * 14 - height];
 }
 export function DataLandscape() {
-  const tilt = useRef<HTMLElement>(null);
-  usePointerTilt(tilt);
   const [mode, setMode] = useState<'surface' | 'points'>('surface');
   const lines = Array.from({ length: 25 }, (_, i) => -3 + i / 4);
   const samples = Array.from({ length: 49 }, (_, i) => -3 + i / 8);
   const path = (fixed: number, flip: boolean) => samples.map((step, i) => { const [x, y] = landscapePoint(flip ? fixed : step, flip ? step : fixed); return `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`; }).join(' ');
-  return <figure ref={tilt} className="landscape">
+  return <figure className="landscape">
     <div className="figure-top"><span><span className="tiny-square" /> THE INTELLIGENCE LAB</span><span>FIG. 001</span></div>
     <svg viewBox="0 0 560 410" role="img" aria-label={mode === 'surface' ? 'Illustrative cyan wireframe surface showing a synthetic distribution' : 'Illustrative scatter points sampled from a synthetic distribution'}>
       <defs><radialGradient id="landscape-glow"><stop stopColor="#34d9cf" stopOpacity=".10"/><stop offset="1" stopColor="#34d9cf" stopOpacity="0"/></radialGradient><linearGradient id="surface-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a8fff0"/><stop offset=".5" stopColor="#52d6cb"/><stop offset="1" stopColor="#285660"/></linearGradient></defs>
