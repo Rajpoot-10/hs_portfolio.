@@ -42,6 +42,8 @@ export const projects: Project[] = [
   {
     slug: 'sales-inventory-analytics', title: 'Sales & Inventory Analytics API', shortTitle: 'Making inventory\nintelligence actionable.', category: 'Data Science & Analytics', preview: 'sales',
     github: 'https://github.com/Rajpoot-10/Sales-Inventory-Analytics-API',
+    demo: 'https://sales-inventory-dashboard-ingouh.streamlit.app/',
+    screenshot: '/images/sales.png',
     description: 'An analytics API that connects day-to-day inventory operations with revenue insights and practical reorder recommendations.',
     problem: 'Sales records and stock levels are most useful when they can inform the same decision: what is selling, what is running low, and what should be reordered?',
     approach: 'FastAPI exposes product, order, and analytics operations. Supabase/PostgreSQL stores records, Pydantic validates inputs, and Pandas and NumPy support aggregation and moving-average calculations. This project does not use n8n.',
@@ -90,6 +92,7 @@ export const projects: Project[] = [
   {
     slug: 'flight-management-system', title: 'Flight Management System', shortTitle: 'Coordinating the booking journey.', category: 'AI & Engineering', preview: 'flight',
     github: 'https://github.com/Rajpoot-10/Flight-Management-System',
+    demo: 'https://flight-management-system-phi.vercel.app/',
     description: 'An engineering and automation project connecting flight search, seat inventory, bookings, and notifications.',
     problem: 'A booking workflow must coordinate changing seat availability with reservation states and passenger notifications.',
     approach: 'A React frontend connects to FastAPI and Supabase/PostgreSQL. n8n supports notification workflows around the booking lifecycle. This is an engineering and automation project.',
