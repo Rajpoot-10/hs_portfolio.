@@ -4,6 +4,7 @@ const repositoryUrls: Record<string, string[]> = {
   'sales-inventory-analytics': ['https://github.com/Rajpoot-10/Sales-Inventory-Analytics-API'],
   'interactive-analytics-dashboards': ['https://github.com/Rajpoot-10/Netflix_EDA', 'https://github.com/Rajpoot-10/Amazon_EDA', 'https://github.com/Rajpoot-10/Super_store_EDA_Dashboard'],
   'automated-eda-system': ['https://github.com/Rajpoot-10/n8n_automated_eda'],
+  'rag-email-assistant': ['https://github.com/Rajpoot-10/-RAG-Email-Assistant'],
   'flight-management-system': ['https://github.com/Rajpoot-10/Flight-Management-System'],
 };
 

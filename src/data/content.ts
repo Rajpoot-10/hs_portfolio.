@@ -82,6 +82,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'rag-email-assistant', title: 'RAG Email Answering Assistant', shortTitle: 'Context before a response.', category: 'AI & Engineering', preview: 'rag',
+    github: 'https://github.com/Rajpoot-10/-RAG-Email-Assistant',
     description: 'Bring relevant document context into AI-generated email responses with a retrieval-augmented workflow.',
     problem: 'A useful email response needs relevant source context rather than relying only on a language model’s general knowledge.',
     approach: 'An n8n workflow connects Gmail integration, Pinecone retrieval, and Groq generation. Retrieved document context supports the generated email response.',

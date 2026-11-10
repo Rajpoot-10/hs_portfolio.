@@ -48,11 +48,11 @@ The supplied portrait of Hassam is configured at `public/images/hassam-portrait-
 
 - Email address.
 - A real resume file and its path.
-- Real project screenshots and live-demo URLs. GitHub URLs for the RAG Email Answering Assistant and WhatsApp AI Agent remain unconfigured.
+- Real project screenshots and live-demo URLs. The GitHub URL for the WhatsApp AI Agent remains unconfigured.
 - Public deployment URL and a real social-preview image.
 - Verified outcomes or personal lessons to replace/extend the technical considerations, if available.
 
-The known GitHub profile is configured as https://github.com/Rajpoot-10. Verified GitHub URLs are configured for Sales, Automated EDA, Flight Management, and all three dashboards. The LinkedIn URL supplied by Hassam is also configured. The RAG email and WhatsApp repository URLs still need to be supplied; no URLs have been guessed. Current case studies document only the supplied project scope; architecture diagrams are labeled conceptual, takeaways are design considerations, and next steps are proposals. No business-impact or production-readiness claims are included.
+The known GitHub profile is configured as https://github.com/Rajpoot-10. GitHub URLs are configured for Sales, Automated EDA, the RAG Email Answering Assistant, Flight Management, and all three dashboards. The LinkedIn URL supplied by Hassam is also configured. The WhatsApp AI Agent repository URL still needs to be supplied; no URL has been guessed. Current case studies document only the supplied project scope; architecture diagrams are labeled conceptual, takeaways are design considerations, and next steps are proposals. No business-impact or production-readiness claims are included.
 
 `profile.siteUrl` and `profile.socialImage` feed runtime canonical/image metadata. Page titles and descriptions update per route. Social crawlers that do not execute JavaScript use the static tags in `index.html`: when adding a real social image and public URL, also add absolute `og:image`/`og:url` and canonical tags there. For route-specific social cards, add static prerendering before launch. No social image is fabricated.
 
