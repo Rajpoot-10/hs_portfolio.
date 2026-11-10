@@ -38,7 +38,7 @@ Edit `src/data/content.ts`:
 - `expertise` and `education`: skills and learning background.
 - `labData` and `labMonths`: explicitly synthetic demonstration values.
 
-Keep missing fields `undefined`. Never use `#`, dummy emails, example repository links, or invented metrics as placeholders. Valid HTTP(S) links are rendered with external-link safety attributes. Email appears as **Open Email App** only with a valid configured address.
+Keep missing fields `undefined`. Never use `#`, dummy emails, example repository links, or invented metrics as placeholders. Valid HTTP(S) links are rendered with external-link safety attributes. A valid configured email address appears as **Send an Email** in the contact section.
 
 Place real files in `public/`, for example `public/images/sales-dashboard.webp`, and configure `/images/sales-dashboard.webp`. Add files before configuring their paths. Real project screenshots replace the concept illustrations automatically. A configured portrait replaces the HA artwork. Images have dimensions and lazy loading. Use optimized WebP/AVIF images with a suitable aspect ratio; check the layout after adding them.
 
@@ -46,7 +46,6 @@ The supplied portrait of Hassam is configured at `public/images/hassam-portrait-
 
 ### Information still needed
 
-- Email address.
 - A real resume file and its path.
 - Real project screenshots and live-demo URLs. The GitHub URL for the WhatsApp AI Agent remains unconfigured.
 - Public deployment URL and a real social-preview image.

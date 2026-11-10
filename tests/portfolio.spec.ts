@@ -100,7 +100,8 @@ test('Data Lab filters change values and keyboard focus exposes a text tooltip',
 test('configured GitHub and LinkedIn links are safe and unavailable actions stay hidden', async ({ page }, testInfo) => {
   await page.goto('/');
   await expect(page.getByRole('link', { name: 'View Resume' })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Open Email App' })).toHaveCount(0);
+  const email = page.locator('#contact').getByRole('link', { name: 'Send an Email' });
+  await expect(email).toHaveAttribute('href', 'mailto:hassamali3255397@gmail.com');
   const linkedin = page.locator('#contact').getByRole('link', { name: 'Connect on LinkedIn' });
   await expect(linkedin).toHaveAttribute('href', 'https://www.linkedin.com/in/hassam-ali-b88432317/');
   await expect(linkedin).toHaveAttribute('target', '_blank');
@@ -116,7 +117,8 @@ test('configured GitHub and LinkedIn links are safe and unavailable actions stay
       await expect(link).toHaveAttribute('target', '_blank');
     }
   }
-  await expect(page.locator('a[href="#"], a[href=""], a[href^="mailto:"]')).toHaveCount(0);
+  await expect(page.locator('a[href="#"], a[href=""]')).toHaveCount(0);
+  await expect(page.locator('a[href^="mailto:"]')).toHaveCount(1);
   const github = page.getByRole('link', { name: 'Find me on GitHub' });
   await expect(github).toHaveAttribute('href', 'https://github.com/Rajpoot-10');
   await expect(github).toHaveAttribute('rel', 'noopener noreferrer');

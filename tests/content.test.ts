@@ -25,7 +25,7 @@ test('missing and unsafe links are omitted; valid actions resolve correctly', ()
   assert.equal(assetUrl(profile.resume), undefined);
   assert.equal(assetUrl('/resume.pdf'), '/resume.pdf');
   assert.equal(assetUrl('//unknown.test/asset'), undefined);
-  assert.equal(emailUrl(profile.email), undefined);
+  assert.equal(emailUrl(profile.email), 'mailto:hassamali3255397@gmail.com');
   assert.equal(emailUrl('invalid'), undefined);
   assert.equal(emailUrl('hello@example.com\nBCC:other@example.com'), undefined);
   assert.equal(emailUrl('hello@example.com'), 'mailto:hello@example.com');

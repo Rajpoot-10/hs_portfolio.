@@ -24,7 +24,7 @@ export const profile: Profile = {
   introduction: 'I work with Python, SQL, analytics, and AI tools to explore real-world problems and build practical solutions.',
   about: 'I’m Hassam, a BS Data Science student at the University of Agriculture Faisalabad. I build practical analytics applications and AI-powered systems, connecting what I learn with problems I can explore and solve.',
   github: 'https://github.com/Rajpoot-10',
-  linkedin: 'https://www.linkedin.com/in/hassam-ali-b88432317/', email: undefined, resume: undefined,
+  linkedin: 'https://www.linkedin.com/in/hassam-ali-b88432317/', email: 'hassamali3255397@gmail.com', resume: undefined,
   portrait: '/images/hassam-portrait-waist-up.png', socialImage: undefined, siteUrl: undefined,
 };
 export const education = [
